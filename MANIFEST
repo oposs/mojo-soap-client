@@ -3,8 +3,6 @@ MANIFEST
 Makefile.PL
 README.md
 CHANGES
-lib/Mojo/SOAP/Client.pmexample/exsoaple.pl
-example/nameservice.xsd
-example/nameservice.wsdl
+lib/Mojo/SOAP/Client.pm
 t/basic.t
 .gitignore
