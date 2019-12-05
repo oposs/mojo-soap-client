@@ -16,6 +16,7 @@ WriteMakefile(
   PREREQ_PM    =>  {
     'XML::Compile::SOAP' => 0,
     'XML::Compile::SOAP12' => 0,
+    'XML::Compile::WSDL11' => 0,
     'XML::Compile::SOAP::Mojolicious' => 0,
     'Mojolicious' => '8.26',
   },
@@ -32,7 +33,7 @@ WriteMakefile(
       repository  => 'https://github.com/oposs/mojo-soap-client',
       bugtracker  => 'https://github.com/oposs/mojo-soap-client/issues'
     },
-    no_index => {directory => ['t','eg']}
+    no_index => {directory => ['t','eg'], package => [ 'Mojo::SOAP::Exception']},
   },
   test => {TESTS => 't/*.t'}
 );
