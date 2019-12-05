@@ -8,18 +8,16 @@ use Data::Dumper;
 use lib "$FindBin::RealBin/3rd/lib/perl5";
 
 WriteMakefile(
-  NAME         => 'Mojo::SOAP',
-  VERSION_FROM => 'lib/Mojolicious/Plugin/SOAP/Server.pm',
+  NAME         => 'Mojo::SOAP::Client',
+  VERSION_FROM => 'lib/Mojo/SOAP/Client.pm',
   ABSTRACT     => 'Hook a soap endpoint into your regular mojo server',
   AUTHOR       => 'Tobias Oetiker <tobi@oetiker.ch>',
   LICENSE      => 'artistic_2',
   PREREQ_PM    =>  {
-    'XML::Compile::SOAP::Daemon' => '3.14',
     'XML::Compile::SOAP' => 0,
     'XML::Compile::SOAP12' => 0,
     'XML::Compile::SOAP::Mojolicious' => 0,
     'Mojolicious' => '8.26',
-    'CGI' => 0,
   },
   TEST_REQUIRES => { 
   },
@@ -31,8 +29,8 @@ WriteMakefile(
     requires  => {perl => '5.010001'},
     resources => {
       license     => 'http://www.opensource.org/licenses/artistic-license-2.0',
-      repository  => 'https://github.com/oetiker/mojolicious-plugin-soap',
-      bugtracker  => 'https://github.com/oetiker/mojolicious-plugin-soap/issues'
+      repository  => 'https://github.com/oposs/mojo-soap-client',
+      bugtracker  => 'https://github.com/oposs/mojo-soap-client/issues'
     },
     no_index => {directory => ['t','eg']}
   },
