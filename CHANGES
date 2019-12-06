@@ -1,3 +1,8 @@
+0.1.2 2019-12-06 11:19:52 +0100 Tobias Oetiker <tobi@oetiker.ch>
+
+ - add port to the ->call to make wsdl definitions with multiple
+   ports work properly
+
 0.1.1 2019-12-06 09:31:56 +0100 Tobias Oetiker <tobi@oetiker.ch>
 
  - fix dependencies

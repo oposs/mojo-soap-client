@@ -1,5 +1,33 @@
 package Mojo::SOAP::Client;
 
+=head1 NAME
+
+Mojo::SOAP::Client - Talk to SOAP Services mojo style
+
+=head1 SYNPOSYS
+
+  use Mojo::SOAP::Client;
+  use Mojo::File qw(curfile);
+  my $client = Mojo::SOAP::Client->new(
+      wsdl => curfile->sibling('fancy.wsdl'),
+      xsds => [ curfile->sibling('fancy.xsd')],
+      port => 'FancyPort'
+  );
+
+  $client->call_p('getFancyInfo',{
+      color => 'green'
+  })->then(sub { 
+      my $answer = shift;
+      my $trace = shift;
+  });
+
+=head1 DESCRIPTION
+
+The Mojo::SOAP::Client is based on the L<XML::Compile::SOAP>
+family of packages, and especially on L<XML::Compile::SOAP::Mojolicious>.
+
+=cut
+
 use Mojo::Base -base, -signatures;
 
 use Mojo::Promise;
@@ -13,25 +41,75 @@ use Mojo::Util qw(b64_encode dumper);
 use Mojo::Log;
 use Carp;
 
-our $VERSION = '0.1.1';
+our $VERSION = '0.1.3';
+
+=pod
+
+It provides the following properties to customize its behavior. Note that setting any properties AFTER using the C<call> or C<call_p> methods, will lead to undefined behavior.
+
+=head2 log
+
+a pointer to a L<Mojo::Log> instance
+
+=cut
 
 has log => sub ($self) {
     Mojo::Log->new;
 };
 
+=head2 request_timeout
+
+How many seconds to wait for the soap server to respond. Defaults to 5 seconds.
+
+=cut
+
 has request_timeout => 5;
 
+=head2 insecure
+
+Set this to allow communication with a soap server that uses a 
+self-signed or otherwhise invalid certificate.
+
+=cut
+
 has insecure => 0;
+
+=head2 wsdl
+
+Where to load the wsdl file from. At the moment this MUST be a file.
+
+=cut
 
 has 'wsdl' => sub ($self) {
     croak "path to wsdl spec file must be provided in wsdl property";
 };
 
+=head2 xsds
+
+A pointer to an array of xsd files to load for this service.
+
+=cut
+
 has 'xsds' => sub ($self) {
     [];
 };
 
+=head2 port
+
+If the wsdl file defines multiple ports, pick the one to use here.
+
+=cut
+
 has 'port';
+
+=head2 endPoint
+
+The endPoint to talk to for reaching the SOAP service. This information
+is normally encoded in the WSDL file, so you will not have to set this
+explicitly.
+
+=cut
+
 
 has 'endPoint' => sub ($self) {
     $self->wsdlCompiler->endPoint(
@@ -39,9 +117,30 @@ has 'endPoint' => sub ($self) {
     );
 };
 
+=head2 ca
+
+The CA cert of the service. Only for special applications.
+
+=cut
+
 has 'ca';
+
+=head2 cert
+
+The client certificate to use when connecting to the soap service.
+
+=cut 
+
 has 'cert';
+
+=head2 key
+
+The key matching the client cert.
+
+=cut
+
 has 'key';
+
 
 has wsdlCompiler => sub ($self) {
     my $wc = XML::Compile::WSDL11->new($self->wsdl);
@@ -69,12 +168,23 @@ has httpUa => sub ($self) {
     );
 };
 
-has uaProperties => sub ($self) {
-    {
-#       header => HTTP::Headers->new(
-#           Authorization => 'Basic '. b64_encode("$user:$password","")
-#       )
-    }
+=head2 uaProperties
+
+If special properties must be set on the UA you can set them here. For example a special authorization header was required, this would tbe the place to set it up.
+
+  my $client = Mojo::SOAP::Client->new(
+      ...
+      uaProperties => {
+          header => HTTP::Headers->new(
+             Authorization => 'Basic '. b64_encode("$user:$password","")
+          })
+      }
+  );
+
+=cut
+
+has uaProperties => sub {
+    {}
 };
 
 has transport => sub ($self) {
@@ -87,9 +197,15 @@ has clients => sub ($self) {
     return {};
 };
 
+=pod
+
+The module provides the following methods.
+
 =head2 call_p($operation,$params)
 
- my $pro = $nevis->call_p('queryUsers',{
+Call a SOAP operation with parameters and return a L<Mojo::Promise>.
+
+ $client->call_p('queryUsers',{
     query => {
         detailLevels => {
             credentialDetailLevel => 'LOW',
@@ -103,10 +219,8 @@ has clients => sub ($self) {
         numRecords => 100,
         skipRecords => 0,
     }
- });
-
- $pro->then(sub ($resp) {
-     print Dumper $resp
+ })->then(sub ($anwser,$trace) {
+     print Dumper $answer
  });
 
 =cut
@@ -117,6 +231,9 @@ sub call_p ($self,$operation,$params={}) {
         operation => $operation,
         transport => $self->transport,
         async => 1,
+        # oddly repetitive, the port is mentioned in the endPoint
+        # selection as well as here ... 
+        ( $self->port ? ( port => $self->port ) : () ),
     );
     $self->log->debug(__PACKAGE__ . " $operation called");
     return Mojo::Promise->new(sub ($resolve,$reject) {
@@ -142,6 +259,12 @@ sub call_p ($self,$operation,$params={}) {
     });
 }
 
+=head2 call($operation,$paramHash)
+
+The same as C<call_p> but for syncronos applications. If there is a problem with the call it will raise a Mojo::SOAP::Exception which is a L<Mojo::Exception> child.
+
+=cut
+
 sub call ($self,$operation,$params) {
     my ($ret,$err);
     $self->call_p($operation,$params)
@@ -157,3 +280,21 @@ package Mojo::SOAP::Exception {
 }
 
 1;
+
+=head1 ACKNOLEDGEMENT
+
+This is really just a very thin layer on top of Mark Overmeers great L<XML::Compile::SOAP> module. Thanks Mark!
+
+=head1 AUTHOR
+
+S<Tobias Oetiker, E<lt>tobi@oetiker.chE<gt>>
+
+=head1 COPYRIGHT
+
+Copyright OETIKER+PARTNER AG 2019
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.10 or,
+at your option, any later version of Perl 5 you may have available.
