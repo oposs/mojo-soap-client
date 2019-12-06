@@ -1,3 +1,7 @@
+<div>
+    ![](https://github.com/oposs/mojo-soap-client/workflows/Unit%20Tests/badge.svg?branch=master)
+</div>
+
 # NAME
 
 Mojo::SOAP::Client - Talk to SOAP Services mojo style
