@@ -26,52 +26,54 @@ $client->call_p('getFancyInfo',{
 The Mojo::SOAP::Client is based on the [XML::Compile::SOAP](https://metacpan.org/pod/XML%3A%3ACompile%3A%3ASOAP)
 family of packages, and especially on [XML::Compile::SOAP::Mojolicious](https://metacpan.org/pod/XML%3A%3ACompile%3A%3ASOAP%3A%3AMojolicious).
 
-It provides the following properties to customize its behavior. Note that setting any properties AFTER using the `call` or `call_p` methods, will lead to undefined behavior.
+## Properties
 
-## log
+The module provides the following properties to customize its behavior. Note that setting any properties AFTER using the `call` or `call_p` methods, will lead to undefined behavior.
+
+### log
 
 a pointer to a [Mojo::Log](https://metacpan.org/pod/Mojo%3A%3ALog) instance
 
-## request\_timeout
+### request\_timeout
 
 How many seconds to wait for the soap server to respond. Defaults to 5 seconds.
 
-## insecure
+### insecure
 
 Set this to allow communication with a soap server that uses a 
 self-signed or otherwhise invalid certificate.
 
-## wsdl
+### wsdl
 
 Where to load the wsdl file from. At the moment this MUST be a file.
 
-## xsds
+### xsds
 
 A pointer to an array of xsd files to load for this service.
 
-## port
+### port
 
 If the wsdl file defines multiple ports, pick the one to use here.
 
-## endPoint
+### endPoint
 
 The endPoint to talk to for reaching the SOAP service. This information
 is normally encoded in the WSDL file, so you will not have to set this
 explicitly.
 
-## ca
+### ca
 
 The CA cert of the service. Only for special applications.
 
-## cert
+### cert
 
 The client certificate to use when connecting to the soap service.
 
-## key
+### key
 
 The key matching the client cert.
 
-## uaProperties
+### uaProperties
 
 If special properties must be set on the UA you can set them here. For example a special authorization header was required, this would tbe the place to set it up.
 
@@ -86,9 +88,11 @@ my $client = Mojo::SOAP::Client->new(
 );
 ```
 
+## Methods
+
 The module provides the following methods.
 
-## call\_p($operation,$params)
+### call\_p($operation,$params)
 
 Call a SOAP operation with parameters and return a [Mojo::Promise](https://metacpan.org/pod/Mojo%3A%3APromise).
 
@@ -112,7 +116,7 @@ $client->call_p('queryUsers',{
 });
 ```
 
-## call($operation,$paramHash)
+### call($operation,$paramHash)
 
 The same as `call_p` but for syncronos applications. If there is a problem with the call it will raise a Mojo::SOAP::Exception which is a [Mojo::Exception](https://metacpan.org/pod/Mojo%3A%3AException) child.
 

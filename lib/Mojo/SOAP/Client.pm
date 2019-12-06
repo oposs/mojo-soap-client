@@ -43,11 +43,11 @@ use Carp;
 
 our $VERSION = '0.1.3';
 
-=pod
+=head2 Properties
 
-It provides the following properties to customize its behavior. Note that setting any properties AFTER using the C<call> or C<call_p> methods, will lead to undefined behavior.
+The module provides the following properties to customize its behavior. Note that setting any properties AFTER using the C<call> or C<call_p> methods, will lead to undefined behavior.
 
-=head2 log
+=head3 log
 
 a pointer to a L<Mojo::Log> instance
 
@@ -57,7 +57,7 @@ has log => sub ($self) {
     Mojo::Log->new;
 };
 
-=head2 request_timeout
+=head3 request_timeout
 
 How many seconds to wait for the soap server to respond. Defaults to 5 seconds.
 
@@ -65,7 +65,7 @@ How many seconds to wait for the soap server to respond. Defaults to 5 seconds.
 
 has request_timeout => 5;
 
-=head2 insecure
+=head3 insecure
 
 Set this to allow communication with a soap server that uses a 
 self-signed or otherwhise invalid certificate.
@@ -74,7 +74,7 @@ self-signed or otherwhise invalid certificate.
 
 has insecure => 0;
 
-=head2 wsdl
+=head3 wsdl
 
 Where to load the wsdl file from. At the moment this MUST be a file.
 
@@ -84,7 +84,7 @@ has 'wsdl' => sub ($self) {
     croak "path to wsdl spec file must be provided in wsdl property";
 };
 
-=head2 xsds
+=head3 xsds
 
 A pointer to an array of xsd files to load for this service.
 
@@ -94,7 +94,7 @@ has 'xsds' => sub ($self) {
     [];
 };
 
-=head2 port
+=head3 port
 
 If the wsdl file defines multiple ports, pick the one to use here.
 
@@ -102,7 +102,7 @@ If the wsdl file defines multiple ports, pick the one to use here.
 
 has 'port';
 
-=head2 endPoint
+=head3 endPoint
 
 The endPoint to talk to for reaching the SOAP service. This information
 is normally encoded in the WSDL file, so you will not have to set this
@@ -117,7 +117,7 @@ has 'endPoint' => sub ($self) {
     );
 };
 
-=head2 ca
+=head3 ca
 
 The CA cert of the service. Only for special applications.
 
@@ -125,7 +125,7 @@ The CA cert of the service. Only for special applications.
 
 has 'ca';
 
-=head2 cert
+=head3 cert
 
 The client certificate to use when connecting to the soap service.
 
@@ -133,7 +133,7 @@ The client certificate to use when connecting to the soap service.
 
 has 'cert';
 
-=head2 key
+=head3 key
 
 The key matching the client cert.
 
@@ -168,7 +168,7 @@ has httpUa => sub ($self) {
     );
 };
 
-=head2 uaProperties
+=head3 uaProperties
 
 If special properties must be set on the UA you can set them here. For example a special authorization header was required, this would tbe the place to set it up.
 
@@ -197,11 +197,11 @@ has clients => sub ($self) {
     return {};
 };
 
-=pod
+=head2 Methods
 
 The module provides the following methods.
 
-=head2 call_p($operation,$params)
+=head3 call_p($operation,$params)
 
 Call a SOAP operation with parameters and return a L<Mojo::Promise>.
 
@@ -259,7 +259,7 @@ sub call_p ($self,$operation,$params={}) {
     });
 }
 
-=head2 call($operation,$paramHash)
+=head3 call($operation,$paramHash)
 
 The same as C<call_p> but for syncronos applications. If there is a problem with the call it will raise a Mojo::SOAP::Exception which is a L<Mojo::Exception> child.
 
