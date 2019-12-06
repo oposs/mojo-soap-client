@@ -13,7 +13,7 @@ use Mojo::Util qw(b64_encode dumper);
 use Mojo::Log;
 use Carp;
 
-our $VERSION = '0.1.0';
+our $VERSION = '0.1.1';
 
 has log => sub ($self) {
     Mojo::Log->new;

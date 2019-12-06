@@ -1,3 +1,8 @@
+0.1.1 2019-12-06 09:31:56 +0100 Tobias Oetiker <tobi@oetiker.ch>
+
+ - fix dependencies
+ - remove (broken) example
+
 0.1.0 2019-12-05 17:59:14 +0100 Tobias Oetiker <tobi@oetiker.ch>
 
  - first release
