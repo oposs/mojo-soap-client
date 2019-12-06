@@ -2,11 +2,11 @@ package Mojo::SOAP::Client;
 
 =pod
 
-=begin html
+=begin markdown
 
 ![](https://github.com/oposs/mojo-soap-client/workflows/Unit%20Tests/badge.svg?branch=master)
 
-=end html
+=end markdown
 
 =head1 NAME
 
