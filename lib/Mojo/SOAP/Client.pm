@@ -289,7 +289,7 @@ package Mojo::SOAP::Exception {
 
 1;
 
-=head1 ACKNOLEDGEMENT
+=head1 ACKNOWLEDGEMENT
 
 This is really just a very thin layer on top of Mark Overmeers great L<XML::Compile::SOAP> module. Thanks Mark!
 
@@ -306,3 +306,5 @@ Copyright OETIKER+PARTNER AG 2019
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10 or,
 at your option, any later version of Perl 5 you may have available.
+
+=cut
