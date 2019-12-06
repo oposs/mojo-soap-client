@@ -124,7 +124,7 @@ $client->call_p('queryUsers',{
 
 The same as `call_p` but for syncronos applications. If there is a problem with the call it will raise a Mojo::SOAP::Exception which is a [Mojo::Exception](https://metacpan.org/pod/Mojo%3A%3AException) child.
 
-# ACKNOLEDGEMENT
+# ACKNOWLEDGEMENT
 
 This is really just a very thin layer on top of Mark Overmeers great [XML::Compile::SOAP](https://metacpan.org/pod/XML%3A%3ACompile%3A%3ASOAP) module. Thanks Mark!
 
