@@ -41,7 +41,7 @@ use Mojo::Util qw(b64_encode dumper);
 use Mojo::Log;
 use Carp;
 
-our $VERSION = '0.1.3';
+our $VERSION = '0.1.4';
 
 =head2 Properties
 

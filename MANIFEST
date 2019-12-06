@@ -4,5 +4,8 @@ Makefile.PL
 README.md
 CHANGES
 lib/Mojo/SOAP/Client.pm
-t/basic.t
 .gitignore
+t/nameservice.wsdl
+t/basic.t
+t/nameservice.xsd
+t/exsoaple.pl
