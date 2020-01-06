@@ -7,5 +7,6 @@ lib/Mojo/SOAP/Client.pm
 .gitignore
 t/nameservice.wsdl
 t/basic.t
+t/server.t
 t/nameservice.xsd
 t/exsoaple.pl

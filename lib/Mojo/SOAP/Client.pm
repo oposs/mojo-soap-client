@@ -49,7 +49,7 @@ use Mojo::Util qw(b64_encode dumper);
 use Mojo::Log;
 use Carp;
 
-our $VERSION = '0.1.4';
+our $VERSION = '0.1.6';
 
 =head2 Properties
 
@@ -148,7 +148,7 @@ The key matching the client cert.
 =cut
 
 has 'key';
-
+has 'ua';
 
 has wsdlCompiler => sub ($self) {
     my $wc = XML::Compile::WSDL11->new($self->wsdl);
@@ -161,6 +161,7 @@ has wsdlCompiler => sub ($self) {
 has httpUa => sub ($self) {
     XML::Compile::Transport::SOAPHTTP_MojoUA->new(
         address => $self->endPoint,
+        mojo_ua => $self->ua,
         ua_start_callback => sub ($ua,$tx) {
             $ua->ca($self->ca)
                 if $self->ca;
